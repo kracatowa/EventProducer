@@ -52,5 +52,10 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-/.vs/EventProducer/CopilotIndices/17.12.38.29086
-/.vs/EventProducer/FileContentIndex
+
+
+/.vs/EventProducer/CopilotIndices/
+/.vs/EventProducer/FileContentIndex/
+/.vs/EventProducer/v17
+/EventProducer.Api/.vs/EventProducer
+/EventProducer.Api/EventProducer.Api.csproj.user
