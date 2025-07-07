@@ -5,12 +5,10 @@ services:
       dockerfile: Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_HTTPS_PORTS: 5656
       ASPNETCORE_HTTP_PORTS: 5657
       PRODUCERSETTINGS__USERNAME: "<ENRICHED_USERNAME>"  
       PRODUCERSETTINGS__PASSWORD: "<ENRICHED_PASSWORD>"
     image: eventproducer:prod
     ports:
-      - "5656:5656"
       - "5657:5657"
     # Add production-specific configuration here
