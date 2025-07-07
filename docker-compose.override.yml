@@ -2,4 +2,4 @@ services:
   eventproducer:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      image: eventproducer:dev
+    image: eventproducer:dev
