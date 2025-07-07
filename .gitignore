@@ -59,3 +59,4 @@ nunit-*.xml
 /.vs/EventProducer/v17
 /EventProducer.Api/.vs/EventProducer
 /EventProducer.Api/EventProducer.Api.csproj.user
+/.vs
