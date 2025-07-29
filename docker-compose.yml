@@ -11,4 +11,9 @@ services:
     image: eventproducer:prod
     ports:
       - "5657:5657"
-    # Add production-specific configuration here
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true

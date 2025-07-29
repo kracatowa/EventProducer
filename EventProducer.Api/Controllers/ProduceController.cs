@@ -1,10 +1,10 @@
-﻿using EventProducer.Controllers.Dto;
+﻿using EventProducer.Api.Controllers.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using System.Text;
 
-namespace EventProducer.Controllers
+namespace EventProducer.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -43,7 +43,7 @@ namespace EventProducer.Controllers
                     ContentType = "application/json",
                     ContentEncoding = "utf-8",
                     DeliveryMode = DeliveryModes.Persistent, // Persistent    
-                    CorrelationId = Guid.NewGuid().ToString(),   
+                    CorrelationId = Guid.NewGuid().ToString(),
                     MessageId = messageId,
                     Timestamp = new AmqpTimestamp(DateTimeOffset.UtcNow.ToUnixTimeSeconds()),
                     Headers = new Dictionary<string, object?>
