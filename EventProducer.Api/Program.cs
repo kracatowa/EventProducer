@@ -1,8 +1,10 @@
+using RabbitMQ.Client;
+
 namespace EventProducer
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,32 @@ namespace EventProducer
 
             // Map controllers  
             app.MapControllers();
+
+            // Add RabbitMQ connection test  
+            var producerSettings = builder.Configuration.GetSection("ProducerSettings").Get<ProducerSettings>();
+
+            if (producerSettings == null)
+            {
+                Console.WriteLine("ProducerSettings are not configured properly.");
+                return;
+            }
+
+            var factory = new ConnectionFactory()
+            {
+                HostName = producerSettings.Server,
+                Port = producerSettings.ServerPort,
+                UserName = producerSettings.Username,
+                Password = producerSettings.Password
+            };
+            try
+            {
+                using var connection = await factory.CreateConnectionAsync();
+                Console.WriteLine($"Successfully connected to RabbitMQ server at {producerSettings.Server}.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to connect to RabbitMQ server at {producerSettings.Server}: {ex.Message}");
+            }
 
             app.Run();
         }
