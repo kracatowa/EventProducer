@@ -8,9 +8,9 @@ namespace EventProducer.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProduceController(IOptions<ProducerSettings> producerSettings) : ControllerBase
+    public class ProduceController(IOptions<RabbitMqServerSettings> rabbitMqServerSettings) : ControllerBase
     {
-        public ProducerSettings ProducerSettings { get; } = producerSettings.Value;
+        public RabbitMqServerSettings RabbitMqServerSettings { get; } = rabbitMqServerSettings.Value;
 
         [HttpPost("send")]
         public async Task<IActionResult> SendMessageAsync([FromBody] SendMessageRequest request)
@@ -19,10 +19,10 @@ namespace EventProducer.Api.Controllers
             {
                 var factory = new ConnectionFactory()
                 {
-                    HostName = ProducerSettings.Server,
-                    Port = ProducerSettings.ServerPort,
-                    UserName = ProducerSettings.Username,
-                    Password = ProducerSettings.Password
+                    HostName = RabbitMqServerSettings.Server,
+                    Port = RabbitMqServerSettings.ServerPort,
+                    UserName = RabbitMqServerSettings.Username,
+                    Password = RabbitMqServerSettings.Password
                 };
 
                 using var connection = await factory.CreateConnectionAsync();

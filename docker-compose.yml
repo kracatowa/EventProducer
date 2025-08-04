@@ -6,8 +6,8 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 5657
-      PRODUCERSETTINGS__USERNAME: "<ENRICHED_USERNAME>"  
-      PRODUCERSETTINGS__PASSWORD: "<ENRICHED_PASSWORD>"
+      RABBITMQSERVERSETTINGS__USERNAME: "admin"  
+      RABBITMQSERVERSETTINGS__PASSWORD: "adminpassword"
     image: eventproducer:prod
     ports:
       - "5657:5657"

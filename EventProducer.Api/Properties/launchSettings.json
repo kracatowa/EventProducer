@@ -4,7 +4,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "LocalDesktop"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5657"
@@ -15,7 +15,7 @@
          "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger/index.html",  
          "environmentVariables": {  
            "ASPNETCORE_HTTP_PORTS": "5657",  
-           "ASPNETCORE_ENVIRONMENT": "Development"
+           "ASPNETCORE_ENVIRONMENT": "LocalDocker"
          },  
          "publishAllPorts": true,  
          "useSSL": true,

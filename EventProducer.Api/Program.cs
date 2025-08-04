@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace EventProducer
+namespace EventProducer.Api
 {
     public class Program
     {
@@ -10,56 +10,59 @@ namespace EventProducer
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            // Add controllers to the service collection  
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 options.JsonSerializerOptions.WriteIndented = true;
-                options.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All); // Specify UTF-8  
+                options.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All); // Specify UTF-8    
             });
-
-            // Bind ProducerSettings to IOptions  
-            builder.Services.Configure<ProducerSettings>(builder.Configuration.GetSection("ProducerSettings"));
+            builder.Services.Configure<RabbitMqServerSettings>(builder.Configuration.GetSection("RabbitMqServerSettings"));
+            builder.Services.AddHealthChecks();
 
             var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.EnvironmentName.StartsWith("Local", StringComparison.InvariantCultureIgnoreCase))
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            // Map controllers  
+   
             app.MapControllers();
+            app.MapHealthChecks("/health");
 
-            // Add RabbitMQ connection test  
-            var producerSettings = builder.Configuration.GetSection("ProducerSettings").Get<ProducerSettings>();
+            var logger = app.Services.GetRequiredService<ILogger<Program>>();
+            await TestRabbitMQConnection(app.Configuration, logger);
 
-            if (producerSettings == null)
+            app.Run();
+        }
+
+        private static async Task TestRabbitMQConnection(IConfiguration configuration, ILogger logger)
+        {
+            var rabbitMqServerSettings = configuration.GetSection("RabbitMqServerSettings").Get<RabbitMqServerSettings>();
+
+            if (rabbitMqServerSettings == null)
             {
-                Console.WriteLine("ProducerSettings are not configured properly.");
+                logger.LogError("RabbitMqServerSettings are not configured properly.");
                 return;
             }
 
             var factory = new ConnectionFactory()
             {
-                HostName = producerSettings.Server,
-                Port = producerSettings.ServerPort,
-                UserName = producerSettings.Username,
-                Password = producerSettings.Password
+                HostName = rabbitMqServerSettings.Server,
+                Port = rabbitMqServerSettings.ServerPort,
+                UserName = rabbitMqServerSettings.Username,
+                Password = rabbitMqServerSettings.Password
             };
+
             try
             {
                 using var connection = await factory.CreateConnectionAsync();
-                Console.WriteLine($"Successfully connected to RabbitMQ server at {producerSettings.Server}.");
+                logger.LogInformation("Successfully connected to RabbitMQ server at {Server}.", rabbitMqServerSettings.Server);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to connect to RabbitMQ server at {producerSettings.Server}: {ex.Message}");
+                logger.LogError(ex, "Failed to connect to RabbitMQ server at {Server}.", rabbitMqServerSettings.Server);
             }
-
-            app.Run();
         }
     }
 }

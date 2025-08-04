@@ -8,6 +8,7 @@
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>eventproducer.api</DockerServiceName>
+    <DockerComposeProjectName>eventproducer</DockerComposeProjectName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

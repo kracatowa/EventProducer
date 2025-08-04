@@ -1,6 +1,6 @@
-﻿namespace EventProducer
+﻿namespace EventProducer.Api
 {
-    public class ProducerSettings
+    public class RabbitMqServerSettings
     {
         public required string Server { get; set; }
         public required int ServerPort { get; set; }
