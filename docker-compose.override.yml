@@ -1,5 +1,0 @@
-services:
-  eventproducer:
-    environment:
-      ASPNETCORE_ENVIRONMENT: LocalDocker
-    image: eventproducer:dev
