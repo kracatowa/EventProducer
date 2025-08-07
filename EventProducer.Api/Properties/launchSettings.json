@@ -1,0 +1,26 @@
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "LocalDesktop"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5657"
+    },
+    "Container (Dockerfile)": {  
+         "commandName": "Docker",  
+         "launchBrowser": true,  
+         "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger/index.html",  
+         "environmentVariables": {  
+           "ASPNETCORE_HTTP_PORTS": "5657",  
+           "ASPNETCORE_ENVIRONMENT": "LocalDocker"
+         },  
+         "publishAllPorts": true,  
+         "useSSL": true,
+         "httpPort": 5657
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}
